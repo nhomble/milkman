@@ -1,0 +1,9 @@
+apiVersion: milkman/alphav1
+kind: Request
+metadata:
+  name: hello
+spec:
+  method: GET
+  scheme: https
+  host: google.com
+  route: /
