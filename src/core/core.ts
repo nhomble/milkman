@@ -70,21 +70,37 @@ const parseYamlResource = function (path: string): MilkResource {
 };
 
 export const execute = function (resources: MilkResource[]): void {
+  const context = executeWithContext(resources, new Map<string, any>());
+  console.log(context);
+};
+
+const executeWithContext = function (
+  resources: MilkResource[],
+  context: Map<string, object>
+): Map<string, object> {
   resources.forEach((resource) => {
     switch (resource.kind) {
       case "Request":
-        executeRequest(resource);
+        context = executeRequest(resource, context);
       default:
     }
   });
+  return context;
 };
 
-export const executeRequest = function (resource: MilkResource): void {
+export const executeRequest = function (
+  resource: MilkResource,
+  context: Map<string, any>
+): Map<string, any> {
   const spec = resource.spec as RequestSpec;
   const uri = `${spec.scheme}://${spec.host}${spec.route}`;
   switch (spec.method) {
     case "GET":
-      axios.get(uri).then((body) => console.log(body));
+      axios.get(uri).then((response) => {
+        context.set("response", response);
+        context.set("status", response.status);
+      });
       break;
   }
+  return context;
 };

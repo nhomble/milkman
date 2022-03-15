@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf build",
     "build": "rimraf build && tsc",
-    "cli": "rimraf build && tsc && node build/index.js",
+    "cli": "rimraf build && tsc && node build/src/index.js",
     "test": "jest"
   },
   "keywords": [],
