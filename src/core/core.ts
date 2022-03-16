@@ -31,7 +31,7 @@ export type ScriptSpec = {
 };
 
 export type RequestSpec = {
-  scheme: "http" | "htt[s";
+  scheme: "http" | "https";
   host: string;
   route: string;
   method: "GET" | "POST";
