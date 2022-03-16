@@ -26,13 +26,16 @@ export type MilkResource = {
   spec: RequestSpec | ScriptSpec;
 };
 
-export type ScriptSpec = {};
+export type ScriptSpec = {
+  depends: string[];
+};
 
 export type RequestSpec = {
   scheme: "http" | "htt[s";
   host: string;
   route: string;
   method: "GET" | "POST";
+  depends: string[];
 };
 
 /**
