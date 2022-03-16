@@ -28,6 +28,7 @@ export type MilkResource = {
 
 export type ScriptSpec = {
   depends: string[];
+  script: string;
 };
 
 export type RequestSpec = {
@@ -85,9 +86,22 @@ const executeWithContext = function (
     switch (resource.kind) {
       case "Request":
         context = executeRequest(resource, context);
+        break;
+      case "Script":
+        context = executeScript(resource, context);
+        break;
       default:
     }
   });
+  return context;
+};
+
+export const executeScript = function (
+  resource: MilkResource,
+  context: Map<string, any>
+): Map<string, any> {
+  const spec = resource.spec as ScriptSpec;
+  Function(spec.script)();
   return context;
 };
 

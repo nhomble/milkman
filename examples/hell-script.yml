@@ -1,0 +1,7 @@
+apiVersion: milkman/alphav1
+kind: Script
+metadata:
+  name: hello-3
+spec:
+  script: |
+    console.log("hello");
