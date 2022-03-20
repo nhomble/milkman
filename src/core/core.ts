@@ -73,27 +73,28 @@ const parseYamlResource = function (path: string): MilkResource {
   return resource;
 };
 
-export const execute = function (resources: MilkResource[]): void {
-  const context = executeWithContext(resources, new Map<string, any>());
-  console.log(context);
+export const execute = async function (
+  resources: MilkResource[]
+): Promise<Map<String, any>> {
+  const m = new Map<string, any>();
+  await executeWithContext(resources, m);
+  return m;
 };
 
 const executeWithContext = function (
   resources: MilkResource[],
-  context: Map<string, object>
-): Map<string, object> {
-  resources.forEach((resource) => {
-    switch (resource.kind) {
-      case "Request":
-        context = executeRequest(resource, context);
-        break;
-      case "Script":
-        context = executeScript(resource, context);
-        break;
-      default:
-    }
-  });
-  return context;
+  context: Map<string, any>
+): Promise<any> {
+  return Promise.all(
+    resources.map((resource) => {
+      switch (resource.kind) {
+        case "Request":
+          return executeRequest(resource, context);
+        case "Script":
+          return executeScript(resource, context);
+      }
+    })
+  );
 };
 
 export const executeScript = function (
@@ -105,19 +106,18 @@ export const executeScript = function (
   return context;
 };
 
-export const executeRequest = function (
+export const executeRequest = async function (
   resource: MilkResource,
   context: Map<string, any>
-): Map<string, any> {
+): Promise<any> {
   const spec = resource.spec as RequestSpec;
   const uri = `${spec.scheme}://${spec.host}${spec.route}`;
   switch (spec.method) {
     case "GET":
-      axios.get(uri).then((response) => {
+      return axios.get(uri).then((response) => {
         context.set("response", response);
         context.set("status", response.status);
       });
-      break;
   }
   return context;
 };

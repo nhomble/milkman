@@ -8,8 +8,8 @@ type Options = {
 export const command: string = "run [directory]";
 export const desc: string = "run milk in [directory]";
 
-export const handler = (argv: Arguments<Options>): void => {
+export const handler = (argv: Arguments<Options>): Promise<any> => {
   const { directory = "." } = argv;
   const milks = discoverMilk(directory);
-  execute(milks);
+  return execute(milks);
 };
