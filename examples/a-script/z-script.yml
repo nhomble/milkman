@@ -1,0 +1,9 @@
+apiVersion: milkman/alphav1
+kind: Script
+metadata:
+  name: hello-4
+spec:
+  dependsOn: ["hello-3"]
+  script: |
+    console.log("hello4");
+    console.log(context);

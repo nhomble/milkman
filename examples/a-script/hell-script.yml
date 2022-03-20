@@ -6,3 +6,4 @@ spec:
   script: |
     console.log("hello");
     console.log(context);
+    context.set("a", "b");

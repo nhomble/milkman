@@ -4,7 +4,7 @@ import { discoverMilk, discoverNames, execute } from "./core";
 describe("discovery", () => {
   it("find all examples", () => {
     const all = discoverNames("./examples");
-    expect(all).toEqual(["hello", "hello-3", "hello-2"]);
+    expect(all).toEqual(["hello", "hello-3", "hello-4", "hello-2"]);
   });
   it("find subset of examples", () => {
     const all = discoverNames("./examples/a-request");
