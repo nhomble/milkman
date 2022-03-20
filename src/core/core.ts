@@ -86,7 +86,7 @@ const executeWithContext = function (
   context: Map<string, any>
 ): Promise<any> {
   return Promise.all(
-    resources.map((resource) => {
+    createSchedule(resources).map((resource) => {
       switch (resource.kind) {
         case "Request":
           return executeRequest(resource, context);
@@ -96,6 +96,12 @@ const executeWithContext = function (
     })
   );
 };
+
+export const createSchedule = function (
+  resources: MilkResource[]
+): MilkResource[] {
+  return resources;
+}
 
 export const executeScript = function (
   resource: MilkResource,
