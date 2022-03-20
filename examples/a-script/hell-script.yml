@@ -5,3 +5,4 @@ metadata:
 spec:
   script: |
     console.log("hello");
+    console.log(context);

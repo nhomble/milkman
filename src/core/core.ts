@@ -102,7 +102,7 @@ export const executeScript = function (
   context: Map<string, any>
 ): Map<string, any> {
   const spec = resource.spec as ScriptSpec;
-  Function(spec.script)();
+  Function('context', spec.script)(context);
   return context;
 };
 
