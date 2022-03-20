@@ -101,14 +101,14 @@ export const createSchedule = function (
   resources: MilkResource[]
 ): MilkResource[] {
   return resources;
-}
+};
 
 export const executeScript = function (
   resource: MilkResource,
   context: Map<string, any>
 ): Map<string, any> {
   const spec = resource.spec as ScriptSpec;
-  Function('context', spec.script)(context);
+  Function("context", spec.script)(context);
   return context;
 };
 
