@@ -1,0 +1,8 @@
+version: '3.1'
+services:
+  wiremock:
+    image: wiremock/wiremock:2.32.0
+    ports:
+      - '8000:8080'
+    volumes:
+      - ./stubs/:/home/wiremock

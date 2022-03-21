@@ -38,6 +38,34 @@ describe("schedule", () => {
     const out = createSchedule([second, first]);
     expect(out).toEqual([first, second]);
   });
+  it("three", () => {
+    const first = {
+      metadata: {
+        name: "first",
+      },
+      spec: {
+        dependsOn: [],
+      },
+    };
+    const second = {
+      metadata: {
+        name: "second",
+      },
+      spec: {
+        dependsOn: ["first"],
+      },
+    };
+    const third = {
+        metadata: {
+          name: "third",
+        },
+        spec: {
+          dependsOn: ["second"],
+        },
+      };
+    const out = createSchedule([third, second, first]);
+    expect(out).toEqual([first, second, third]);
+  });
   it("deadlock", () => {
     const first = {
       metadata: {
@@ -56,7 +84,7 @@ describe("schedule", () => {
       },
     };
     expect(() => createSchedule([second, first])).toThrow(
-      new Error("Detected a cyclic dependency!")
+      new Error("No path found! This means you have unsatisfied `dependsOn` from a cyclic or missing dependencies!")
     );
   });
 });

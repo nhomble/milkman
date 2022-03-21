@@ -1,8 +1,8 @@
 apiVersion: milkman/alphav1
 kind: Script
 metadata:
-  name: hello-3
+  name: check hello
 spec:
-  dependsOn: [hello]
+  dependsOn: ["say hello"]
   script: |
     console.log(context.get("status"));

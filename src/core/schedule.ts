@@ -59,7 +59,7 @@ export const createSchedule = function (
     });
   }
   if (ret.length != resources.length) {
-    throw new Error("Detected a cyclic dependency!");
+    throw new Error("No path found! This means you have unsatisfied `dependsOn` from a cyclic or missing dependencies!");
   }
   return ret.map((n) => name_to_resource.get(n)!);
 };
