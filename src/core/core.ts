@@ -5,7 +5,7 @@ import * as path from "path";
 import axios from "axios";
 import chalk from "chalk";
 import { createSchedule } from "./schedule";
-import { newScriptingConsole } from "./scripting";
+import { newScriptingConsole, tester } from "./scripting";
 
 /**
  * find names of all resources
@@ -108,10 +108,7 @@ const executeWithContext = function (
     }
   );
   return asyncs.reduce(
-    (promise, func) =>
-      promise.then(() =>
-        func()
-      ),
+    (promise, func) => promise.then(() => func()),
     Promise.resolve()
   );
 };
@@ -121,8 +118,10 @@ export const executeScript = function (
   context: Map<string, any>
 ): Promise<any> {
   const spec = resource.spec as ScriptSpec;
-  Function("context", "console", spec.script)(context, newScriptingConsole(resource));
-  return Promise.resolve(context);
+  const userScript = Function("context", "console", "test", spec.script);
+  const thisConsole = newScriptingConsole(resource);
+  userScript(context, thisConsole, tester(thisConsole));
+  return Promise.resolve(true);
 };
 
 export const executeRequest = async function (

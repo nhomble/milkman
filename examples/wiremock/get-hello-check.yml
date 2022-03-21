@@ -5,4 +5,7 @@ metadata:
 spec:
   dependsOn: ["say hello"]
   script: |
-    console.log(context.get("status"));
+    console.log("check request");
+    test(context.get("status") == 200, "status should be 200");
+    console.log("tested");
+    context.set("message", context.get("response").data.message);

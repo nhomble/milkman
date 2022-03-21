@@ -1,0 +1,9 @@
+apiVersion: milkman/alphav1
+kind: Script
+metadata:
+  name: check message
+spec:
+  dependsOn: ["check hello"]
+  script: |
+    console.log("checking message");
+    test(context.get("message") == "Hello World !", "should be hello world");

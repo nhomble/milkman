@@ -1,6 +1,5 @@
 import type { Arguments } from "yargs";
 import { execute, discoverMilk } from "../core/core";
-import chalk from "chalk";
 type Options = {
   directory: string | undefined;
 };
