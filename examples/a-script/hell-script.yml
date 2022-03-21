@@ -3,7 +3,6 @@ kind: Script
 metadata:
   name: hello-3
 spec:
+  dependsOn: [hello]
   script: |
-    console.log("hello");
-    console.log(context);
-    context.set("a", "b");
+    console.log(context.get("status"));
