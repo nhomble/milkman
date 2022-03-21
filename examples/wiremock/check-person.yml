@@ -1,0 +1,9 @@
+apiVersion: milkman/alphav1
+kind: Script
+metadata:
+  name: check person
+spec:
+  dependsOn: ["post person"]
+  script: |
+    context.set("personId", context.get("post person").response.data.personId);
+    console.log(`personId=${context.get("personId")}`);

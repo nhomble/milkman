@@ -1,0 +1,9 @@
+apiVersion: milkman/alphav1
+kind: Request
+metadata:
+  name: post person
+spec:
+  method: POST
+  scheme: http
+  host: localhost:8000
+  route: /person

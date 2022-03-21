@@ -17,6 +17,6 @@ describe("run", () => {
     const milks = discoverMilk("./examples/google");
     const context = execute(milks);
     const c = await context;
-    expect(c.get("status")).toBe(200);
+    expect(c.get("hello").status).toBe(200);
   });
 });

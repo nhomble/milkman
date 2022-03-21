@@ -5,4 +5,4 @@ metadata:
 spec:
   dependsOn: [hello]
   script: |
-    console.log(context.get("status"));
+    console.log(context.get("hello").status);

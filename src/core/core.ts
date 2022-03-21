@@ -122,7 +122,11 @@ export const executeScript = function (
   const spec = resource.spec as ScriptSpec;
   const userScript = Function("context", "console", "test", spec.script);
   const thisConsole = newScriptingConsole(resource);
-  userScript(context, thisConsole, tester(thisConsole));
+  try {
+    userScript(context, thisConsole, tester(thisConsole));
+  } catch (error) {
+    thisConsole.error(`Error while executing script error=${error}`);
+  }
   return Promise.resolve(true);
 };
 
@@ -137,10 +141,12 @@ export const executeRequest = async function (
     method: spec.method,
     headers: spec.headers,
     url: uri,
-    data: spec.body
+    data: spec.body,
   };
   return axios.request(options).then((response) => {
-    context.set("response", response);
-    context.set("status", response.status);
+    context.set(resource.metadata.name, {
+      response: response,
+      status: response.status,
+    });
   });
 };
