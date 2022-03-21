@@ -5,6 +5,7 @@ import * as path from "path";
 import axios from "axios";
 import chalk from "chalk";
 import { createSchedule } from "./schedule";
+import { newScriptingConsole } from "./scripting";
 
 /**
  * find names of all resources
@@ -120,18 +121,7 @@ export const executeScript = function (
   context: Map<string, any>
 ): Promise<any> {
   const spec = resource.spec as ScriptSpec;
-  const newConsole = {
-    log: function (s: object) {
-      console.log(`${chalk.blueBright(resource.metadata.name + ">")}`, s);
-    },
-    warn: function (s: object) {
-      console.log(`${chalk.yellowBright(resource.metadata.name + ">")}`, s);
-    },
-    error: function (s: object) {
-      console.log(`${chalk.redBright(resource.metadata.name + ">")}`, s);
-    },
-  };
-  Function("context", "console", spec.script)(context, newConsole);
+  Function("context", "console", spec.script)(context, newScriptingConsole(resource));
   return Promise.resolve(context);
 };
 
