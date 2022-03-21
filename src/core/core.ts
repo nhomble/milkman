@@ -2,7 +2,7 @@ import { glob } from "glob";
 import { load } from "js-yaml";
 import * as fs from "fs";
 import * as path from "path";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import chalk from "chalk";
 import { createSchedule } from "./schedule";
 import { newScriptingConsole, tester } from "./scripting";
@@ -42,6 +42,8 @@ export type RequestSpec = {
   host: string;
   route: string;
   method: "GET" | "POST";
+  headers: Record<string, string | number | boolean>;
+  body: string;
   dependsOn: string[];
 };
 
@@ -130,12 +132,15 @@ export const executeRequest = async function (
 ): Promise<any> {
   const spec = resource.spec as RequestSpec;
   const uri = `${spec.scheme}://${spec.host}${spec.route}`;
-  switch (spec.method) {
-    case "GET":
-      return axios.get(uri).then((response) => {
-        context.set("response", response);
-        context.set("status", response.status);
-      });
-  }
-  return context;
+
+  const options: AxiosRequestConfig = {
+    method: spec.method,
+    headers: spec.headers,
+    url: uri,
+    data: spec.body
+  };
+  return axios.request(options).then((response) => {
+    context.set("response", response);
+    context.set("status", response.status);
+  });
 };
