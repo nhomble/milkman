@@ -8,6 +8,7 @@ yargs(hideBin(process.argv))
   // Use the commands directory to scaffold.
   .commandDir('commands')
   .demandCommand()
+  .showHelpOnFail(false)
   // Enable strict mode.
   .strict()
   // Useful aliases.
