@@ -2,9 +2,10 @@ import { glob } from "glob";
 import { load } from "js-yaml";
 import * as fs from "fs";
 import * as path from "path";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, Method } from "axios";
 import { createSchedule } from "./schedule";
 import { newScriptingConsole, tester } from "./scripting";
+import mustache from "mustache";
 
 /**
  * find names of all resources
@@ -119,7 +120,8 @@ export const executeScript = function (
   context: Map<string, any>
 ): Promise<any> {
   const spec = resource.spec as ScriptSpec;
-  const userScript = Function("context", "console", "test", spec.script);
+  const templated = mustache.render(spec.script, Object.fromEntries(context));
+  const userScript = Function("context", "console", "test", templated);
   const thisConsole = newScriptingConsole(resource);
   try {
     userScript(context, thisConsole, tester(thisConsole));
@@ -133,14 +135,17 @@ export const executeRequest = async function (
   resource: MilkResource,
   context: Map<string, any>
 ): Promise<any> {
+  const render = function (s: string | undefined): string {
+    return mustache.render(s || "", Object.fromEntries(context));
+  };
   const spec = resource.spec as RequestSpec;
-  const uri = `${spec.scheme}://${spec.host}${spec.route}`;
+  const uri = `${render(spec.scheme)}://${render(spec.host)}${render(spec.route)}`;
 
   const options: AxiosRequestConfig = {
-    method: spec.method,
+    method: render(spec.method) as Method,
     headers: spec.headers,
-    url: uri,
-    data: spec.body,
+    url: render(uri),
+    data: render(spec.body),
   };
   return axios.request(options).then((response) => {
     context.set(resource.metadata.name, {

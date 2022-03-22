@@ -7,3 +7,4 @@ spec:
   scheme: http
   host: localhost:8000
   route: /person
+  body: '{}'

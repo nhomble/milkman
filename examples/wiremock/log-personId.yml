@@ -1,0 +1,8 @@
+apiVersion: milkman/alphav1
+kind: Script
+metadata:
+  name: log person
+spec:
+  dependsOn: ["check person"]
+  script: |
+    console.log("{{personId}}");
