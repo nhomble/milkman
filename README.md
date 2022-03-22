@@ -1,3 +1,26 @@
 # milkman
 
+![demo](./docs/demo.gif)
+
 cli driven http tester - it's just a postman clone
+
+## Usage
+
+```
+Commands:
+  index.js discover [directory]  discover milk in [directory]
+  index.js run [directory]       run milk in [directory]
+
+Options:
+      --version  Show version number                                   [boolean]
+  -h, --help     Show help                                             [boolean]
+```
+
+## Features
+
+- all http methods supported by `axios`
+- `mustache` templating
+- scripts defined between requests
+- loose dependency tree via the `dependsOn` parameter
+- a `test` function available in script invocations
+- context passing `Map<string, any>` across specs
