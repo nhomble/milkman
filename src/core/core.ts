@@ -3,7 +3,6 @@ import { load } from "js-yaml";
 import * as fs from "fs";
 import * as path from "path";
 import axios, { AxiosRequestConfig } from "axios";
-import chalk from "chalk";
 import { createSchedule } from "./schedule";
 import { newScriptingConsole, tester } from "./scripting";
 
