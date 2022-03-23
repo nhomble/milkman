@@ -1,4 +1,6 @@
 # milkman
+[![Node.js CI](https://github.com/nhomble/milkman/actions/workflows/node.js.yml/badge.svg)](https://github.com/nhomble/milkman/actions/workflows/node.js.yml)
+[![CodeQL](https://github.com/nhomble/milkman/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/nhomble/milkman/actions/workflows/codeql-analysis.yml)
 
 ![demo](./docs/demo.gif)
 
