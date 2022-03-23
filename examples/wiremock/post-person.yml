@@ -5,6 +5,7 @@ metadata:
 spec:
   method: POST
   scheme: http
-  host: localhost:8000
+  host: '{{host}}'
   route: /person
   body: '{}'
+  dependsOn: ['docker env']
