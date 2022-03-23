@@ -1,27 +1,7 @@
-import { glob } from "glob";
-import { load } from "js-yaml";
-import * as fs from "fs";
-import * as path from "path";
-import axios, { AxiosRequestConfig, Method } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { createSchedule } from "./schedule";
 import { newScriptingConsole, tester } from "./scripting";
 import { templateRequest, templateString } from "./templating";
-import { duplicates } from "./utils";
-
-/**
- * find names of all resources
- * @param root directory to begin search
- * @returns array of names
- */
-export const discoverNames = function (
-  root: string,
-  environment: string
-): string[] {
-  const paths = createSchedule(discoverMilk(root, environment)).map(
-    (res) => `${res.metadata.name}`
-  );
-  return paths;
-};
 
 export type MilkMetadata = {
   name: string;
@@ -52,55 +32,6 @@ export type RequestSpec = {
   headers: Record<string, string | number | boolean>;
   body: string;
   dependsOn: string[];
-};
-
-/**
- * find paths for all discovered resources
- * @param root directory to begin search
- * @returns
- */
-export const discoverResources = function (root: string): string[] {
-  const p = path.resolve(root);
-  const pattern = `${p}/**/*.yml`;
-  return glob.sync(pattern);
-};
-
-export const discoverMilk = function (
-  root: string,
-  environment: string
-): MilkResource[] {
-  const all = discoverResources(root)
-    .map((path) => {
-      return parseYamlResource(path);
-    })
-    .filter((resource) => {
-      const { environment: e = "" } = resource?.metadata?.labels;
-      return e == "" || environment == "" || e == environment;
-    });
-  const dupes = duplicates(all.map((r) => r.metadata.name));
-  if (dupes.length > 0) {
-    throw new Error(`You have duplicate resources names=${dupes}`);
-  }
-  return all;
-};
-
-const parseYamlResource = function (path: string): MilkResource {
-  const data = fs.readFileSync(path, "utf8");
-  const resource = load(data) as MilkResource;
-
-  if (!resource.apiVersion) {
-    throw new Error(`${path} does not have apiVersion defined`);
-  }
-  if (!resource.metadata.name) {
-    throw new Error(`${path} does not have metadata.name defined`);
-  }
-  if (!resource.kind) {
-    throw new Error(`${path} does not have kind defined`);
-  }
-
-  resource.metadata.labels = resource.metadata.labels || new Map<string, any>();
-  resource.metadata.path = path;
-  return resource;
 };
 
 export const execute = async function (

@@ -1,5 +1,6 @@
 import { it, describe } from "@jest/globals";
-import { discoverMilk, discoverNames, execute } from "./core";
+import { execute } from "./core";
+import { discoverMilk, discoverNames } from "./discovery";
 
 describe("discovery", () => {
   it("find all google examples", () => {

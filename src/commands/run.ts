@@ -1,5 +1,6 @@
 import type { Arguments, CommandBuilder } from "yargs";
-import { execute, discoverMilk } from "../core/core";
+import { execute } from "../core/core";
+import { discoverMilk } from "../core/discovery";
 type Options = {
   directory: string | undefined;
   environment: string | undefined;
