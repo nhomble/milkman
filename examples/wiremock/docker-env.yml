@@ -2,6 +2,8 @@ apiVersion: milkman/alphav1
 kind: Script
 metadata:
   name: docker env
+  labels:
+    environment: docker
 spec:
   script: |
     context.set("host", 'localhost:8000');

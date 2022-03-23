@@ -3,14 +3,16 @@ import { discoverNames } from "../core/core";
 import chalk from "chalk";
 type Options = {
   directory: string | undefined;
+  environment: string | undefined;
 };
 
-export const command: string = "discover [directory]";
-export const desc: string = "discover milk in [directory]";
+export const command: string = "discover [directory] --environment [environment]";
+export const desc: string =
+  "discover milk in [directory] with optional [environment] filter";
 
 export const handler = (argv: Arguments<Options>): void => {
-  const { directory = "." } = argv;
-  const milks = discoverNames(directory);
-  const msg = `${milks.join('\n')}`;
+  const { directory = "", environment = "" } = argv
+  const milks = discoverNames(directory, environment);
+  const msg = `${milks.join("\n")}`;
   console.log(chalk.green(msg));
 };

@@ -12,8 +12,11 @@ import { templateRequest, templateString } from "./templating";
  * @param root directory to begin search
  * @returns array of names
  */
-export const discoverNames = function (root: string): string[] {
-  const paths = createSchedule(discoverMilk(root)).map(
+export const discoverNames = function (
+  root: string,
+  environment: string
+): string[] {
+  const paths = createSchedule(discoverMilk(root, environment)).map(
     (res) => `${res.metadata.name}`
   );
   return paths;
@@ -22,7 +25,10 @@ export const discoverNames = function (root: string): string[] {
 export type MilkMetadata = {
   name: string;
   path: string;
-  labels: Map<String, String>;
+  labels: {
+    environment?: string;
+    [key: string]: string | undefined;
+  };
 };
 
 export type MilkResource = {
@@ -58,11 +64,19 @@ export const discoverResources = function (root: string): string[] {
   return glob.sync(pattern);
 };
 
-export const discoverMilk = function (root: string): MilkResource[] {
+export const discoverMilk = function (
+  root: string,
+  environment: string
+): MilkResource[] {
   // TODO check for dupe names
-  return discoverResources(root).map((path) => {
-    return parseYamlResource(path);
-  });
+  return discoverResources(root)
+    .map((path) => {
+      return parseYamlResource(path);
+    })
+    .filter((resource) => {
+      const { environment: e = "" } = resource?.metadata?.labels;
+      return e == "" || environment == "" || e == environment;
+    });
 };
 
 const parseYamlResource = function (path: string): MilkResource {
@@ -79,6 +93,7 @@ const parseYamlResource = function (path: string): MilkResource {
     throw new Error(`${path} does not have kind defined`);
   }
 
+  resource.metadata.labels = resource.metadata.labels || new Map<string, any>();
   resource.metadata.path = path;
   return resource;
 };
