@@ -6,6 +6,7 @@ import axios, { AxiosRequestConfig, Method } from "axios";
 import { createSchedule } from "./schedule";
 import { newScriptingConsole, tester } from "./scripting";
 import { templateRequest, templateString } from "./templating";
+import { duplicates } from "./utils";
 
 /**
  * find names of all resources
@@ -68,8 +69,7 @@ export const discoverMilk = function (
   root: string,
   environment: string
 ): MilkResource[] {
-  // TODO check for dupe names
-  return discoverResources(root)
+  const all = discoverResources(root)
     .map((path) => {
       return parseYamlResource(path);
     })
@@ -77,6 +77,11 @@ export const discoverMilk = function (
       const { environment: e = "" } = resource?.metadata?.labels;
       return e == "" || environment == "" || e == environment;
     });
+  const dupes = duplicates(all.map((r) => r.metadata.name));
+  if (dupes.length > 0) {
+    throw new Error(`You have duplicate resources names=${dupes}`);
+  }
+  return all;
 };
 
 const parseYamlResource = function (path: string): MilkResource {
