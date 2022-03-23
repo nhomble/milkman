@@ -5,7 +5,7 @@ import * as path from "path";
 import axios, { AxiosRequestConfig, Method } from "axios";
 import { createSchedule } from "./schedule";
 import { newScriptingConsole, tester } from "./scripting";
-import mustache from "mustache";
+import { templateRequest, templateString } from "./templating";
 
 /**
  * find names of all resources
@@ -120,7 +120,7 @@ export const executeScript = function (
   context: Map<string, any>
 ): Promise<any> {
   const spec = resource.spec as ScriptSpec;
-  const templated = mustache.render(spec.script, Object.fromEntries(context));
+  const templated = templateString(spec.script, Object.fromEntries(context));
   const userScript = Function("context", "console", "test", templated);
   const thisConsole = newScriptingConsole(resource);
   try {
@@ -136,20 +136,21 @@ export const executeRequest = async function (
   context: Map<string, any>
 ): Promise<any> {
   const thisConsole = newScriptingConsole(resource);
-  const render = function (s: string | undefined): string {
-    return mustache.render(s || "", Object.fromEntries(context));
-  };
   const spec = resource.spec as RequestSpec;
-  const uri = `${render(spec.scheme)}://${render(spec.host)}${render(
-    spec.route
-  )}`;
+  const uri = templateString(
+    `${spec.scheme}://${spec.host}${spec.route}`,
+    Object.fromEntries(context)
+  );
 
-  const options: AxiosRequestConfig = {
-    method: render(spec.method) as Method,
-    headers: spec.headers,
-    url: render(uri),
-    data: render(spec.body),
-  };
+  const options: AxiosRequestConfig = templateRequest(
+    {
+      method: spec.method,
+      headers: spec.headers,
+      url: uri,
+      data: spec.body,
+    },
+    Object.fromEntries(context)
+  );
   return axios.request(options).then((response) => {
     thisConsole.log(`${options.method} ${options.url} ${response.status}`);
     context.set(resource.metadata.name, {
