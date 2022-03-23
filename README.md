@@ -9,13 +9,14 @@ cli driven http tester - it's just a postman clone
 ## Usage
 
 ```
-Commands:
-  index.js discover [directory]  discover milk in [directory]
-  index.js run [directory]       run milk in [directory]
+index.js run [directory] [environment]
+
+run milk in [directory] and filter optionally against [environment]
 
 Options:
-      --version  Show version number                                   [boolean]
-  -h, --help     Show help                                             [boolean]
+      --version      Show version number                               [boolean]
+      --environment
+  -h, --help         Show help                                         [boolean]
 ```
 
 ## Features
@@ -26,3 +27,4 @@ Options:
 - loose dependency tree via the `dependsOn` parameter
 - a `test` function available in script invocations
 - context passing `Map<string, any>` across specs
+- filtering resources by `metadata.labels.environment`
