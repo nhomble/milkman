@@ -28,3 +28,13 @@ Options:
 - a `test` function available in script invocations
 - context passing `Map<string, any>` across specs
 - filtering resources by `metadata.labels.environment`
+
+## Development
+
+Run the examples locally!
+```sh
+cd integration/
+docker-compose up -d
+cd -
+yarn cli run ./examples/wiremock
+```
