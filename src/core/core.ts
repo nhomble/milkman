@@ -135,11 +135,14 @@ export const executeRequest = async function (
   resource: MilkResource,
   context: Map<string, any>
 ): Promise<any> {
+  const thisConsole = newScriptingConsole(resource);
   const render = function (s: string | undefined): string {
     return mustache.render(s || "", Object.fromEntries(context));
   };
   const spec = resource.spec as RequestSpec;
-  const uri = `${render(spec.scheme)}://${render(spec.host)}${render(spec.route)}`;
+  const uri = `${render(spec.scheme)}://${render(spec.host)}${render(
+    spec.route
+  )}`;
 
   const options: AxiosRequestConfig = {
     method: render(spec.method) as Method,
@@ -148,6 +151,7 @@ export const executeRequest = async function (
     data: render(spec.body),
   };
   return axios.request(options).then((response) => {
+    thisConsole.log(`${options.method} ${options.url} ${response.status}`);
     context.set(resource.metadata.name, {
       response: response,
       status: response.status,
