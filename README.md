@@ -1,4 +1,5 @@
 # milkman
+
 [![Node.js CI](https://github.com/nhomble/milkman/actions/workflows/node.js.yml/badge.svg)](https://github.com/nhomble/milkman/actions/workflows/node.js.yml)
 [![CodeQL](https://github.com/nhomble/milkman/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/nhomble/milkman/actions/workflows/codeql-analysis.yml)
 
@@ -32,6 +33,7 @@ Options:
 ## Development
 
 Run the examples locally!
+
 ```sh
 cd integration/
 docker-compose up -d
