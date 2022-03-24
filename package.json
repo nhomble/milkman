@@ -1,6 +1,6 @@
 {
   "name": "@nhomble/milkman",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "cli driven http tester",
   "main": "./bin/index.js",
   "bin": {
