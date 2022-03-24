@@ -1,6 +1,6 @@
 {
   "name": "milkman",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "cli driven http tester",
   "main": "./src/index.ts",
   "scripts": {
@@ -9,9 +9,15 @@
     "cli": "rimraf build && tsc && node build/src/index.js",
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "postman",
+    "testing",
+    "http",
+    "curl",
+    "toy"
+  ],
+  "author": "nhomble",
+  "license": "MIT",
   "devDependencies": {
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
