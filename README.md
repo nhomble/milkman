@@ -39,5 +39,5 @@ cd integration/
 docker-compose up -d
 cd -
 yarn build
-node ./bin/index.js run examples/wiremock
+yarn local run examples/wiremock
 ```
