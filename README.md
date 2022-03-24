@@ -5,7 +5,7 @@
 
 ![demo](./docs/demo.gif)
 
-cli driven http tester - it's just a postman clone
+cli driven http tester
 
 ## Usage
 

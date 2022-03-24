@@ -12,7 +12,6 @@
     "local": "tsc && node ./bin/src/index.js"
   },
   "keywords": [
-    "postman",
     "testing",
     "http",
     "curl",
