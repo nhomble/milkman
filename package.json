@@ -2,11 +2,12 @@
   "name": "@nhomble/milkman",
   "version": "0.1.0",
   "description": "cli driven http tester",
-  "main": "./src/index.ts",
+  "main": "./bin/index.js",
+  "bin": {
+    "milkman": "./bin/index.js"
+  },
   "scripts": {
-    "clean": "rimraf build",
-    "build": "rimraf build && tsc",
-    "cli": "rimraf build && tsc && node build/src/index.js",
+    "build": "tsc",
     "test": "jest"
   },
   "keywords": [

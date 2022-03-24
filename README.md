@@ -38,5 +38,6 @@ Run the examples locally!
 cd integration/
 docker-compose up -d
 cd -
-yarn cli run ./examples/wiremock
+yarn build
+node ./bin/index.js run examples/wiremock
 ```
