@@ -10,14 +10,18 @@ cli driven http tester - it's just a postman clone
 ## Usage
 
 ```
-index.js run [directory] [environment]
+index.js <cmd> [args]
 
-run milk in [directory] and filter optionally against [environment]
+Commands:
+  index.js discover [directory]             discover milk resources in
+  [environment]                             [directory] and filter optionally
+                                            against [environment]
+  index.js run [directory] [environment]    run milk in [directory] and filter
+                                            optionally against [environment]
 
 Options:
-      --version      Show version number                               [boolean]
-      --environment
-  -h, --help         Show help                                         [boolean]
+      --version  Show version number                                   [boolean]
+  -h, --help     Show help                                             [boolean]
 ```
 
 ## Features
