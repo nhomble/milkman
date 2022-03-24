@@ -13,4 +13,5 @@ yargs(hideBin(process.argv))
   .strict()
   // Useful aliases.
   .alias({ h: 'help' })
+  .usage('$0 <cmd> [args]')
   .argv;
