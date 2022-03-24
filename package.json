@@ -4,12 +4,12 @@
   "description": "cli driven http tester",
   "main": "./bin/index.js",
   "bin": {
-    "milkman": "./bin/index.js"
+    "milkman": "./bin/src/index.js"
   },
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "local": "node ./bin/index.js"
+    "local": "tsc && node ./bin/src/index.js"
   },
   "keywords": [
     "postman",
