@@ -17,6 +17,9 @@
     "curl",
     "toy"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "nhomble",
   "license": "MIT",
   "devDependencies": {
