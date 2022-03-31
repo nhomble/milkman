@@ -4,13 +4,13 @@
   "description": "cli driven http tester",
   "main": "./dist/src/index.js",
   "bin": {
-    "milkman": "./bin/src/index.js"
+    "milkman": "./bin/milkman"
   },
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc",
     "test": "jest",
-    "local": "tsc && node ./bin/src/index.js"
+    "local": "tsc && node ./dist/src/index.js"
   },
   "keywords": [
     "testing",
