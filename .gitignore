@@ -1,5 +1,4 @@
 node_modules
 yarn-error.log
 build
-bin/src
-bin/jest.config.js
+dist/
