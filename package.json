@@ -7,6 +7,7 @@
     "milkman": "./bin/src/index.js"
   },
   "scripts": {
+    "clean": "rimraf bin",
     "build": "tsc",
     "test": "jest",
     "local": "tsc && node ./bin/src/index.js"
