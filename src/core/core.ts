@@ -36,7 +36,7 @@ export type RequestSpec = {
 
 export const execute = async function (
   resources: MilkResource[]
-): Promise<Map<String, any>> {
+): Promise<Map<string, any>> {
   const m = new Map<string, any>();
   await executeWithContext(resources, m);
   return m;
