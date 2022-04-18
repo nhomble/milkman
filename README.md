@@ -36,7 +36,7 @@ Options:
 
 ## Development
 
-Run the examples locally!
+Run the examples locally.
 
 ```sh
 cd integration/
