@@ -1,16 +1,17 @@
 import chalk from "chalk";
 import { MilkResource } from "./core";
 
-export const newScriptingConsole = function (resource: MilkResource) {
+export const newScriptingConsole = function (resource: MilkResource, indents: number = 0) {
+  const tabs = "\t".repeat(indents);
   return {
     log: function (s: object | string) {
-      console.log(`${chalk.blueBright(resource.metadata.name + ">")}`, s);
+      console.log(`${tabs}${chalk.blueBright(resource.metadata.name + ">")}`, s);
     },
     warn: function (s: object | string) {
-      console.log(`${chalk.yellowBright(resource.metadata.name + ">")}`, s);
+      console.log(`${tabs}${chalk.yellowBright(resource.metadata.name + ">")}`, s);
     },
     error: function (s: object | string) {
-      console.log(`${chalk.redBright(resource.metadata.name + ">")}`, s);
+      console.log(`${tabs}${chalk.redBright(resource.metadata.name + ">")}`, s);
     },
   };
 };

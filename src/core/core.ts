@@ -1,7 +1,7 @@
-import axios, { AxiosRequestConfig } from "axios";
-import { createSchedule } from "./schedule";
-import { newScriptingConsole, tester } from "./scripting";
-import { templateRequest, templateString } from "./templating";
+import axios, {AxiosRequestConfig} from "axios";
+import {createSchedule} from "./schedule";
+import {newScriptingConsole, tester} from "./scripting";
+import {templateRequest, templateString} from "./templating";
 
 export type MilkMetadata = {
   name: string;
@@ -46,15 +46,20 @@ const executeWithContext = function (
   resources: MilkResource[],
   context: Map<string, any>
 ): Promise<any> {
+  const logPath = (resource: MilkResource) => {
+    console.log(`path: ${resource.metadata.path}`);
+  };
   const asyncs: CallableFunction[] = createSchedule(resources).map(
     (resource) => {
       switch (resource.kind) {
         case "Request":
           return async () => {
+            logPath(resource);
             return executeRequest(resource, context);
           };
         case "Script":
           return async () => {
+            logPath(resource);
             executeScript(resource, context);
           };
       }
@@ -73,7 +78,7 @@ export const executeScript = function (
   const spec = resource.spec as ScriptSpec;
   const templated = templateString(spec.script, Object.fromEntries(context));
   const userScript = Function("context", "console", "test", templated);
-  const thisConsole = newScriptingConsole(resource);
+  const thisConsole = newScriptingConsole(resource, 1);
   try {
     userScript(context, thisConsole, tester(thisConsole));
   } catch (error) {
@@ -86,7 +91,7 @@ export const executeRequest = async function (
   resource: MilkResource,
   context: Map<string, any>
 ): Promise<any> {
-  const thisConsole = newScriptingConsole(resource);
+  const thisConsole = newScriptingConsole(resource, 1);
   const spec = resource.spec as RequestSpec;
   const uri = templateString(
     `${spec.scheme}://${spec.host}${spec.route}`,
