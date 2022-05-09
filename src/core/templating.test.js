@@ -31,7 +31,7 @@ describe("request", () => {
       method: "GET",
       url: "/foo",
       data: "",
-      headers: undefined,
+      headers: {},
     });
   });
 });

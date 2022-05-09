@@ -12,11 +12,17 @@ export const templateRequest = function (
   c: AxiosRequestConfig,
   context: { [k: string]: any }
 ): AxiosRequestConfig {
+  const headers = c.headers as Record<string, string> || {};
   const options: AxiosRequestConfig = {
     method: templateString(c.method as string, context) as Method,
-    headers: c.headers,
+    headers: {},
     url: templateString(c.url!, context),
     data: templateString(c.data, context),
   };
+
+  Object.entries(headers).forEach(([k, v]) => {
+    options.headers![templateString(k, context)] = templateString(v, context);
+  })
+
   return { ...c, ...options } as AxiosRequestConfig;
 };
